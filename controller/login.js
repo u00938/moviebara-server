@@ -2,6 +2,6 @@
 
 module.exports = {
   post: (req, res) => {
-    res.send('no')
-  }
-}
+    res.send("no");
+  },
+};
