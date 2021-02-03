@@ -1,0 +1,4 @@
+process.env.USERNAME
+process.env.PASSWORD
+process.env.DATABASE
+process.env.HOST
