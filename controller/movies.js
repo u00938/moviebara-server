@@ -8,5 +8,8 @@ module.exports = {
   getMovieById: (req, res) => {
     res.send('no')
 
+  },
+  post: (req, res) => {
+    res.send('no')
   }
 }

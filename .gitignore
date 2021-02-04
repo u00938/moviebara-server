@@ -3,7 +3,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,dotenv,vscode
 
 ### dotenv ###
-.env
+.env.development
 
 ### Node ###
 # Logs
