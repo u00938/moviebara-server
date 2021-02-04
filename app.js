@@ -20,8 +20,10 @@ const port = process.env.PORT || 4000;
 
 const app = express();
 
-app.use(bodyparser.json());
+app.use(logger("dev"));
 app.use(cookieParser());
+app.use(bodyparser.json());
+
 app.use(
   cors({
     origin: true,
@@ -29,7 +31,7 @@ app.use(
     credentials: true,
   })
 );
-app.use(logger("dev"));
+
 
 const loginRouter = require("./routes/login");
 const logoutRouter = require("./routes/logout");
