@@ -18,7 +18,7 @@ module.exports = {
       }
       else {
         const movies = await movie.findAll();
-        res.status(200).json({ ok: movies })
+        res.status(200).json({ movies })
       }
     } catch(err) {
       console.log(err)
