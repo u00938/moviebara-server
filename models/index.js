@@ -45,22 +45,22 @@ const { user, post, scrap, movie } = sequelize.models;
 
 user.hasMany(post);
 post.belongsTo(user, { 
-  foreignKey: 'user_id', targetKey: 'id'
+  foreignKey: "userId"
   });
 
 movie.hasMany(post);
 post.belongsTo(movie, { 
-  foreignKey: 'movie_id', targetKey: 'id'
+  foreignKey: "movieId"
   });
 
 user.hasMany(scrap);
 scrap.belongsTo(user, { 
-  foreignKey: 'user_id', targetKey: 'id'
+  foreignKey: "userId"
   });
 
 post.hasMany(scrap);
 scrap.belongsTo(post, { 
-  foreignKey: 'post_id', targetKey: 'id'
+  foreignKey: "postId"
   });
 
 db.sequelize = sequelize;

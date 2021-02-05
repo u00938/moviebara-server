@@ -3,14 +3,14 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     // field 추가
-    await queryInterface.addColumn('posts', 'user_id', Sequelize.INTEGER);
-    await queryInterface.addColumn('posts', 'movie_id', Sequelize.INTEGER);
+    await queryInterface.addColumn('posts', 'userId', Sequelize.INTEGER);
+    await queryInterface.addColumn('posts', 'movieId', Sequelize.INTEGER);
 
     // foreign key 연결
     await queryInterface.addConstraint('posts', {
-      fields: ['user_id'],
+      fields: ['userId'],
       type: 'foreign key',
-      name: 'user_id',
+      name: 'userId',
       references: {
         table: 'users',
         field: 'id'
@@ -19,9 +19,9 @@ module.exports = {
       onUpdate: 'cascade'
     });
     await queryInterface.addConstraint('posts', {
-      fields: ['movie_id'],
+      fields: ['movieId'],
       type: 'foreign key',
-      name: 'movie_id',
+      name: 'movieId',
       references: {
         table: 'movies',
         field: 'id'
@@ -32,9 +32,9 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.removeConstraint('posts', 'user_id');
-    await queryInterface.removeColumn('posts', 'user_id');
-    await queryInterface.removeConstraint('posts', 'movie_id');
-    await queryInterface.removeColumn('posts', 'movie_id');
+    await queryInterface.removeConstraint('posts', 'userId');
+    await queryInterface.removeColumn('posts', 'userId');
+    await queryInterface.removeConstraint('posts', 'movieId');
+    await queryInterface.removeColumn('posts', 'movieId');
   }
 };

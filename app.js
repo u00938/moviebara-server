@@ -5,7 +5,6 @@ const bodyparser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 const path = require('path');
-dotenv.config();
 
 // CLI에서 export NODE_ENV='development' 실행하고 작업해주세요
 if (process.env.NODE_ENV === "production") {
