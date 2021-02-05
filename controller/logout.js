@@ -20,7 +20,7 @@ module.exports = {
             } else {
               // refreshToken이 유효하다면, 쿠키에서 삭제
               res.clearCookie('refreshToken');
-              res.status(200).json({ message: 'logout ok' })
+              res.status(200).json({ message: 'logout ok, Now you can delete accessToken' })
             }
           })
         }
