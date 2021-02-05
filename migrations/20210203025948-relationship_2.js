@@ -3,9 +3,9 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.addConstraint('scraps', {
-      fields: ['user_id'],
+      fields: ['userId'],
       type: 'foreign key',
-      name: 'scrap_user_id',
+      name: 'scrapUserId',
       references: {
         table: 'users',
         field: 'id'
@@ -14,9 +14,9 @@ module.exports = {
       onUpdate: 'cascade'
     });
     await queryInterface.addConstraint('scraps', {
-      fields: ['post_id'],
+      fields: ['postId'],
       type: 'foreign key',
-      name: 'scrap_post_id',
+      name: 'scrapPostId',
       references: {
         table: 'posts',
         field: 'id'
@@ -27,7 +27,7 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.removeConstraint('scraps', 'scrap_user_id');
-    await queryInterface.removeConstraint('scraps', 'scrap_post_id');
+    await queryInterface.removeConstraint('scraps', 'scrapUserId');
+    await queryInterface.removeConstraint('scraps', 'scrapPostId');
   }
 };

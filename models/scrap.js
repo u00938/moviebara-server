@@ -14,8 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   scrap.init({
-    user_id: DataTypes.INTEGER,
-    post_id: DataTypes.INTEGER
+    userId: DataTypes.INTEGER,
+    postId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'scrap',

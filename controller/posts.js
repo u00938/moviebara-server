@@ -16,16 +16,24 @@ module.exports = {
     try {
       const query = req.query
       if (query.user_id) {
+        /*
         const postByUser = await post.findAll({
-          attributes: ['id', 'text', 'rate', 'user_id', 'movie_id', 'createdAt', 'updatedAt'],
-          include: [
-            { model: user, attributes: ['image', 'nickname'] }, 
-            { model: movie, attributes: ['title', 'image', 'genre'] }, 
-            { model: scrap, attributes: ['post_id', [sequelize.fn("count", sequelize.col('post_id')), "count"]], group: "post_id"}
-          ],
-          where: { user_id: query.user_id }
+          attributes:{include: [[sequelize.fn("COUNT", sequelize.col("scraps.id")), "count"]]},
+          include:[{model: scrap, attributes:[]}],
+          group:["post.id"],
+          where: { userId: query.user_id },
         })
-        if (postByUser) res.status(200).json({post: postByUser})
+        */
+      const postByUser = await post.findAll({
+        attributes:["id", "text", "rate", "userId", "movieId", [sequelize.fn("COUNT", sequelize.col("scraps.id")), "count"]],
+        include:[{model: scrap, attributes:[]}, 
+        { model: user, attributes: ["nickname", "image"]}, 
+        { model: movie, attributes: ["title", "image", "genre"] }
+        ],
+        group:["id"],
+        where: { userId: query.user_id },
+      })
+        if (postByUser) res.status(200).json(postByUser)
         else res.status(400).json({ message: "There's no post of user" })
       }
       if (query.movie_id) {
@@ -36,7 +44,7 @@ module.exports = {
         if (postByMovie) res.status(200).json(postByMovie)
         else res.status(400).json({ message: "There's no post of user" })
       }
-      res.status(400).json({ message: "need some id" })
+      // res.status(400).json({ message: "need some id" })
     } catch (err) {
       console.log(err)
     }
