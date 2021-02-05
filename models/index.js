@@ -44,16 +44,24 @@ Object.keys(db).forEach((modelName) => {
 const { user, post, scrap, movie } = sequelize.models;
 
 user.hasMany(post);
-post.belongsTo(user);
+post.belongsTo(user, { 
+  foreignKey: 'user_id', targetKey: 'id'
+  });
 
 movie.hasMany(post);
-post.belongsTo(movie);
+post.belongsTo(movie, { 
+  foreignKey: 'movie_id', targetKey: 'id'
+  });
 
 user.hasMany(scrap);
-scrap.belongsTo(user);
+scrap.belongsTo(user, { 
+  foreignKey: 'user_id', targetKey: 'id'
+  });
 
 post.hasMany(scrap);
-scrap.belongsTo(post);
+scrap.belongsTo(post, { 
+  foreignKey: 'post_id', targetKey: 'id'
+  });
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
