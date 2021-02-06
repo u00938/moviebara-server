@@ -7,6 +7,7 @@ module.exports = {
     const token = authorization.split(' ')[1];
     // < accessToken이 존재할 경우 >
     if(token) {
+      // 해당 accessToken이 유효한지 검토
       jwt.verify(token, process.env.ACCESS_SECRET, (err, result) => {
         if(err) {
           // 해당 accessToken이 유효하지 않다면, 에러메시지

@@ -4,6 +4,6 @@ const controller = require('../controller/scraps')
 
 router.post('/', controller.post)
 router.get('/', controller.getScrapById)
-router.delete('/:id', controller.deleteScrap)
+router.delete('/', controller.deleteScrap)
 
 module.exports = router;
