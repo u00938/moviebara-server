@@ -1,10 +1,11 @@
 const express = require('express')
 const router = express.Router();
 const controller = require('../controller/posts')
+const tokenMiddleware = require('../middleware/token');
 
-router.post('/', controller.post)
-router.get('/', controller.getPostById)
-router.patch('/', controller.updatePost)
-router.delete('/', controller.deletePost)
+router.post('/', tokenMiddleware, controller.post)
+router.get('/', tokenMiddleware, controller.getPostById)
+router.patch('/', tokenMiddleware, controller.updatePost)
+router.delete('/', tokenMiddleware, controller.deletePost)
 
 module.exports = router;
