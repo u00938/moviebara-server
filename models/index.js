@@ -44,24 +44,29 @@ Object.keys(db).forEach((modelName) => {
 const { user, post, scrap, movie } = sequelize.models;
 
 user.hasMany(post);
-post.belongsTo(user, { 
-  foreignKey: "userId"
-  });
+post.belongsTo(user, {
+  foreignKey: "userId",
+});
 
 movie.hasMany(post);
-post.belongsTo(movie, { 
-  foreignKey: "movieId"
-  });
+post.belongsTo(movie, {
+  foreignKey: "movieId",
+});
 
+// super many-to-many가 많은 유연성을 제공하기 때문에
+// 사용하는 것이 최선일듯 함
 user.hasMany(scrap);
-scrap.belongsTo(user, { 
-  foreignKey: "userId"
-  });
+scrap.belongsTo(user, {
+  foreignKey: "userId",
+});
 
 post.hasMany(scrap);
-scrap.belongsTo(post, { 
-  foreignKey: "postId"
-  });
+scrap.belongsTo(post, {
+  foreignKey: "postId",
+});
+
+post.belongsToMany(user, { through: scrap });
+user.belongsToMany(post, { through: scrap });
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
