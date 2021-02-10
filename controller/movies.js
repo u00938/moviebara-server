@@ -18,8 +18,8 @@ module.exports = {
         const movies = await movie.findAll();
         res.status(200).json(movies)
       }
-    } catch {
-      res.status(500).send()
+    } catch (err) {
+      console.error(err)
     }
   },
 }
