@@ -10,27 +10,33 @@ const generateToken = (payload) => {
 }
 
 const tokenChecker = (req, res, next) => {
-  const token = req.cookies.accessToken
-  if (!token) return next();
   try {
-    jwt.verify(req.cookies.accessToken, process.env.ACCESS_SECRET, async (err, result) => {
-      if (err) res.status(400).json({ message: "auth error" })
-      else {
-        delete result.iat;
-        delete result.exp;
-        const newToken = await generateToken(result)
-        res.cookie('accessToken', newToken, {
-          domain: 'localhost',
-          path: '/',
-          httpOnly: true,
-          // secure: true, (https 사용시 추가)
-          sameSite: 'none',
-          maxAge: 1000 * 60 * 60 * 24,
-          overwrite: true
-        })
-        next()
-      }
-    })
+    const token = req.cookies.accessToken
+    if (!token) {
+      res.status(400).json({ message: "auth error" })
+    }
+    else {
+      jwt.verify(req.cookies.accessToken, process.env.ACCESS_SECRET, async (err, result) => {
+        if (err) {
+          res.status(400).json({ message: "auth error" })
+        }
+        else {
+          delete result.iat;
+          delete result.exp;
+          const newToken = await generateToken(result)
+          res.cookie('accessToken', newToken, {
+            domain: 'localhost',
+            path: '/',
+            httpOnly: true,
+            // secure: true, (https 사용시 추가)
+            sameSite: 'none',
+            maxAge: 1000 * 60 * 60 * 24,
+            overwrite: true
+          })
+          next()
+        }
+      })
+    }
   } catch (err) {
     console.error(err)
   }
