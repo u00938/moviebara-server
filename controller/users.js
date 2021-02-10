@@ -8,9 +8,8 @@ module.exports = {
     try {
       const token = req.cookies.accessToken
       jwt.verify(token, process.env.ACCESS_SECRET, async (error, result) => {
-        const myInfo = await user.findOne({ where: { id: result.id } })
-        const { id, nickname, email, image } = myInfo  
-        if (myInfo) res.status(200).send({ id, nickname, email, image })
+        const myInfo = await user.findOne({ where: { id: result.id }, attributes: { exclude: ['password'] } })
+        if (myInfo) res.status(200).send(myInfo)
         else res.status(400).send({ message: 'invalid user' })
       })
     } catch (err) {
