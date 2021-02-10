@@ -60,113 +60,56 @@ module.exports = {
         }
       );
     } catch (err) {
-      res.status(500).send();
+      console.errer(err)
     }
   },
   getScrapById: async (req, res) => {
     try {
-      jwt.verify(
-        req.cookies.accessToken,
-        process.env.ACCESS_SECRET,
-        async (err, result) => {
-          delete result.iat;
-          delete result.exp;
-          if (err) {
-            res.status(400).send({ message: "invalid access token" });
-          } else {
-            return new Promise((resolve, reject) => {
-              jwt.sign(
-                result,
-                process.env.ACCESS_SECRET,
-                { expiresIn: "1d" },
-                (error, token) => {
-                  if (error) reject(error);
-                  else resolve(token);
-                }
-              );
-            }).then(async (token) => {
-              res.cookie("accessToken", token, {
-                domain: "localhost",
-                path: "/",
-                httpOnly: true,
-                // secure: true, (https 사용시 추가)
-                sameSite: "none",
-                maxAge: 1000 * 60 * 60 * 24,
-                overwrite: true,
-              });
-              try {
-                const query = req.query;
-                // 쿼리에 user_id가 담겨있다면
-                if (query.user_id) {
-                  // 해당 유저가 스크랩한 post의 모든 정보들을 가져온다.
-                  const scrapByUser = await scrap.findAll({
-                    attributes: [],
-                    include: [
-                      {
-                        model: post,
-                        attributes: [
-                          "id",
-                          "text",
-                          "rate",
-                          "createdAt",
-                          [
-                            sequelize.fn(
-                              "COUNT",
-                              sequelize.col("post.scraps.id")
-                            ),
-                            "scrap",
-                          ],
-                        ],
-                        include: [
-                          { model: scrap, attributes: [] },
-                          { model: user, attributes: ["nickname", "image"] },
-                          {
-                            model: movie,
-                            attributes: ["title", "image", "genre"],
-                          },
-                        ],
-                        group: ["id"],
-                      },
-                    ],
-                    group: ["id"],
-                    where: { userId: query.user_id },
-                  });
-
-                  // 참고해서 수정바랍니다
-                  // const scrapByUser = await post.findAll({
-                  //   attributes: [
-                  //     "id",
-                  //     [sequelize.fn("COUNT", sequelize.col("scraps.id")), "scrap_count"],
-                  //   ],
-                  //   include: [
-                  //     {
-                  //       model: scrap,
-                  //       attributes: [],
-                  //     },
-                  //   ],
-                  //   group: ["id"],
-                  // });
-
-                  // 성공적으로 가져왔다면, 응답에 전송
-                  if (scrapByUser)
-                    res.status(200).json({ data: scrapByUser, message: "ok" });
-                  // 가져오지 못했다면 에러메시지
-                  else
-                    res
-                      .status(400)
-                      .json({ message: "There's no scrap post of user" });
-                }
-                // 쿼리에 user_id가 담겨있지 않다면 에러메시지
-                res.status(400).json({ message: "need some id" });
-              } catch (err) {
-                res.status(500).send();
-              }
-            });
-          }
-        }
-      );
+      const query = req.query;
+      // 쿼리에 user_id가 담겨있다면
+      if (query.user_id) {
+        // 해당 유저가 스크랩한 post의 모든 정보들을 가져온다.
+        const scrapByUser = await scrap.findAll({
+          attributes: ["postId"],
+          include: [
+            {
+              model: post,
+              attributes: [
+                "text",
+                "rate",
+                "createdAt",
+                [
+                  sequelize.fn(
+                    "COUNT",
+                    sequelize.col("post.scraps.id")
+                  ),
+                  "scrap",
+                ],
+              ],
+              include: [
+                { model: scrap, attributes: [] },
+                { model: user, attributes: ["nickname", "image"] },
+                {
+                  model: movie,
+                  attributes: ["title", "image", "genre"],
+                },
+              ]
+            },
+          ],
+          group: ["scrap.id"],
+          where: { userId: query.user_id },
+        });
+        // 성공적으로 가져왔다면, 응답에 전송
+        if (scrapByUser)
+          res.status(200).json({ data: scrapByUser, message: "ok" });
+        // 가져오지 못했다면 에러메시지
+        else
+          res
+            .status(400)
+            .json({ message: "There's no scrap post of user" });
+      }
     } catch (err) {
-      res.status(500).send();
+      console.errer(err)
     }
   },
   deleteScrap: async (req, res) => {
@@ -222,7 +165,7 @@ module.exports = {
         }
       );
     } catch (err) {
-      res.status(500).send();
+      console.errer(err)
     }
   },
 };

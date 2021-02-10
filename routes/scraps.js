@@ -1,9 +1,10 @@
 const express = require('express')
 const router = express.Router();
 const controller = require('../controller/scraps')
+const tokenMiddleware = require('../middleware/token');
 
-router.post('/', controller.post)
-router.get('/', controller.getScrapById)
-router.delete('/', controller.deleteScrap)
+router.post('/', tokenMiddleware, controller.post)
+router.get('/', tokenMiddleware, controller.getScrapById)
+router.delete('/', tokenMiddleware, controller.deleteScrap)
 
 module.exports = router;
