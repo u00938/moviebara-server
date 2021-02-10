@@ -1,5 +1,5 @@
-const dotenv = require('dotenv');
-const path = require('path');
+const dotenv = require("dotenv");
+const path = require("path");
 
 // CLI에서 export NODE_ENV='development' 실행하고 작업해주세요
 if (process.env.NODE_ENV === "production") {
@@ -29,6 +29,7 @@ module.exports = {
     username: process.env.USERNAME,
     password: process.env.PASSWORD,
     database: process.env.DATABASE,
+    port: process.env.DATABASE_PORT,
     host: process.env.HOST,
     dialect: "mysql",
   },
