@@ -1,6 +1,5 @@
 const { post, movie, user, scrap } = require('../models')
 const sequelize = require('sequelize')
-const jwt = require('jsonwebtoken');
 
 module.exports = {
   post: async (req, res) => {
@@ -46,8 +45,8 @@ module.exports = {
         if (postByMovie) res.status(200).json({ post: postByMovie })
         else res.status(400).json({ message: "There's no post of user" })
       }
-    } catch {
-      res.status(500).send()
+    } catch (err) {
+      console.error(err)
     }
   },
   updatePost: async (req, res) => {
@@ -55,8 +54,8 @@ module.exports = {
       const { text, rate, userId, movieId } = req.body;
       await post.update({ text, rate }, { where: { userId, movieId } });
       res.status(200).json({ message: "update success" })
-    } catch {
-      res.status(500).send()
+    } catch (err) {
+      console.error(err)
     }
   },
   deletePost: async (req, res) => {
@@ -64,8 +63,8 @@ module.exports = {
       const { postId } = req.body;
       await post.destroy({ where: { id: postId } })
       res.status(200).json({ message: "delete success" })
-    } catch {
-      res.status(500).send()
+    } catch (err) {
+      console.error(err)
     }
   }
 }
