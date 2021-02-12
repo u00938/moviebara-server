@@ -25,12 +25,9 @@ app.use(logger("dev"));
 app.use(cookieParser());
 app.use(bodyparser.json());
 
-app.use(upload.array());
-app.use(express.static("public"));
-
 app.use(
   cors({
-    origin: true,
+    origin: "http://localhost:3000",
     methods: "GET, POST, PATCH, DELETE, OPTIONS",
     credentials: true,
   })

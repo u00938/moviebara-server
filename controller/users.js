@@ -65,9 +65,7 @@ module.exports = {
     try {
       const token = req.cookies.accessToken;
       jwt.verify(token, process.env.ACCESS_SECRET, async (error, result) => {
-        const { nickname, image, password } = req.body;
-
-        console.log(req.body);
+        const { nickname, password } = req.body;
 
         const sameNickname = await user.findOne({
           where: { nickname, id: { [Op.ne]: result.id } },
@@ -83,12 +81,14 @@ module.exports = {
             secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
           });
 
+          console.log(req.file);
+
           const param = {
             Bucket: "moviebara",
             Key:
               "image/" + nickname + "profile" + new Date().getTime() + ".jpg",
             ACL: "public-read",
-            Body: fs.createReadStream(__dirname + "/../1.jpg"),
+            Body: req.file.buffer,
           };
 
           s3.upload(param, async function (err, data) {
