@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       rate: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.DECIMAL(3, 1)
       },
       createdAt: {
         allowNull: false,
