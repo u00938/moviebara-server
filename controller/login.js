@@ -9,7 +9,7 @@ module.exports = {
     const { email, password } = req.body;
     if(!email || !password) {
       // 정보가 더 필요하다면 에러메시지
-      res.status(400).send({ message: "should send full data" })
+      res.status(400).json({ message: "should send full data" })
     }
     // body에 담긴 정보로 유저정보를 불러온다.
     const userInfo = await user.findOne({
@@ -50,7 +50,7 @@ module.exports = {
           maxAge: 1000 * 60 * 60 * 24,
           overwrite: true
         })
-        res.status(200).send({ data: null, message: 'ok' })
+        res.status(200).json({ data: null, message: 'ok' })
       })
     }
   } catch(err) {

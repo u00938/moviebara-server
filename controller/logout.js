@@ -6,7 +6,7 @@ module.exports = {
       res.status(400).json({ data: null, message: 'Please login first' })
     }
     jwt.verify(req.cookies.accessToken, process.env.ACCESS_SECRET, (err, result) => {
-      if(err) {res.status(400).send({
+      if(err) {res.status(400).json({
         data: null,
         message: "invalid access token"
       })} else {
