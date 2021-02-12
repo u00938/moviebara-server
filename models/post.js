@@ -15,9 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   post.init({
     text: DataTypes.STRING,
-    rate: DataTypes.DECIMAL,
-    //user_id: { type: DataTypes.INTEGER, field: "user_id" },
-    //movie_id: { type: DataTypes.INTEGER, field: "movie_id" }
+    rate: DataTypes.DECIMAL(3, 1)
   }, {
     sequelize,
     modelName: 'post'
