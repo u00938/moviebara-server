@@ -60,7 +60,7 @@ module.exports = {
         });
       }
     } catch (err) {
-      res.status(500).send();
+      console.error(err)
     }
   },
 };
