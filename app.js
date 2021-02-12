@@ -5,6 +5,8 @@ const bodyparser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 const path = require("path");
+const multer = require("multer");
+const upload = multer();
 
 // // CLI에서 export NODE_ENV='development' 실행하고 작업해주세요
 // if (process.env.NODE_ENV === "production") {
@@ -22,6 +24,9 @@ const app = express();
 app.use(logger("dev"));
 app.use(cookieParser());
 app.use(bodyparser.json());
+
+app.use(upload.array());
+app.use(express.static("public"));
 
 app.use(
   cors({
