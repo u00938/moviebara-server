@@ -16,6 +16,12 @@ module.exports = {
       const userInfo = await user.findOne({
         where: { email },
       });
+
+      if (userInfo === null) {
+        res.status(400).json({ data: null, message: "not found user" });
+        return;
+      }
+
       const isSame = await bcrypt.compare(password, userInfo.password);
       if (!isSame) {
         // 정보가 유효하지 않을 경우, 에러메시지
@@ -60,7 +66,7 @@ module.exports = {
         });
       }
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
   },
 };
