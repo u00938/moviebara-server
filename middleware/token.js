@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
-
+const {OAuth2Client} = require('google-auth-library');
+const client = new OAuth2Client(process.env.CLIENT_ID);
 const generateToken = (payload) => {
   return new Promise((resolve, reject) => {
     jwt.sign(
@@ -13,13 +14,26 @@ const generateToken = (payload) => {
     );
   });
 };
-
 const tokenChecker = (req, res, next) => {
   try {
+    const oauthToken = req.cookies.oauthToken;
     const token = req.cookies.accessToken;
-    if (!token) {
-      res.status(400).json({ message: "auth error" });
-    } else {
+    if (oauthToken) {
+      async function verify() {
+        await client.verifyIdToken({
+            idToken: oauthToken,
+            audience: process.env.CLIENT_ID
+        });
+      }
+      verify()
+      .then(() => {
+        return next();
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    }
+    else if (token) {
       jwt.verify(
         req.cookies.accessToken,
         process.env.ACCESS_SECRET,
@@ -43,10 +57,11 @@ const tokenChecker = (req, res, next) => {
           }
         }
       );
+    } else {
+      res.status(400).json({ message: "auth error" })
     }
   } catch (err) {
     console.error(err);
   }
 };
-
 module.exports = tokenChecker;

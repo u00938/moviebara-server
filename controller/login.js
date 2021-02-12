@@ -1,13 +1,13 @@
 const { user } = require("../models");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-
+const {OAuth2Client} = require('google-auth-library');
+const client = new OAuth2Client(process.env.CLIENT_ID);
 module.exports = {
   post: async (req, res) => {
     try {
       // 필요한 모든 정보가 전달되었는지 여부
       const { email, password } = req.body;
-
       if (!email || !password) {
         // 정보가 더 필요하다면 에러메시지
         res.status(400).json({ data: null, message: "should send full data" });
@@ -69,4 +69,30 @@ module.exports = {
       console.error(err);
     }
   },
+  googleLogin: (req, res) => {
+    let token = req.body.token
+    console.log(token)
+    let userInfo = {}
+    async function verify() {
+      const ticket = await client.verifyIdToken({
+          idToken: token,
+          audience: process.env.CLIENT_ID
+      });
+      const payload = ticket.getPayload();
+      userInfo.nickname = payload.name;
+      userInfo.email = payload.email;
+      userInfo.image = payload.picture;
+    }
+    verify()
+    .then(async () => {
+      const { nickname, email, image } = userInfo
+      await user.findOrCreate({
+        where: { email, nickname },
+        defaults: { nickname, email, image }
+      })
+      res.cookie('oauthToken', token);
+      res.status(200).json({ data: null, message: "ok" });
+    })
+    .catch(console.error);
+  }
 };
