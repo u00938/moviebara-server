@@ -22,12 +22,10 @@ module.exports = {
         res.status(200).json({ data: result, message: "ok" });
       } else {
         // 데이터가 존재할 경우, 이미 있는 데이터라고 메시지 보내줌
-        res
-          .status(400)
-          .json({ data: null, message: "Data already exists" });
+        res.status(400).json({ data: null, message: "Data already exists" });
       }
     } catch (err) {
-      console.errer(err)
+      console.errer(err);
     }
   },
   getScrapById: async (req, res) => {
@@ -46,10 +44,7 @@ module.exports = {
                 "rate",
                 "createdAt",
                 [
-                  sequelize.fn(
-                    "COUNT",
-                    sequelize.col("post.scraps.id")
-                  ),
+                  sequelize.fn("COUNT", sequelize.col("post.scraps.id")),
                   "scrap",
                 ],
               ],
@@ -60,7 +55,7 @@ module.exports = {
                   model: movie,
                   attributes: ["title", "image", "genre"],
                 },
-              ]
+              ],
             },
           ],
           group: ["scrap.id"],
@@ -76,7 +71,7 @@ module.exports = {
             .json({ data: null, message: "There's no scrap post of user" });
       }
     } catch (err) {
-      console.errer(err)
+      console.errer(err);
     }
   },
   deleteScrap: async (req, res) => {
@@ -92,14 +87,12 @@ module.exports = {
       });
       if (scrapDelete) {
         // 성공적으로 삭제된 경우 응답에 전송
-        res
-          .status(200)
-          .json({ data: scrapDelete, message: "delete success" });
+        res.status(200).json({ data: scrapDelete, message: "delete success" });
       }
       // 삭제가 되지 않을 경우 에러메시지
       res.status(400).json({ data: null, message: "There's no such data" });
     } catch (err) {
-      console.errer(err)
+      console.errer(err);
     }
   },
 };
