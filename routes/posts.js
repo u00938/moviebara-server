@@ -4,7 +4,7 @@ const controller = require('../controller/posts')
 const tokenMiddleware = require('../middleware/token');
 
 router.post('/', tokenMiddleware, controller.post)
-router.get('/', tokenMiddleware, controller.getPostById)
+router.get('/', controller.getPostById)
 router.patch('/', tokenMiddleware, controller.updatePost)
 router.delete('/', tokenMiddleware, controller.deletePost)
 
