@@ -61,14 +61,7 @@ module.exports = {
           group: ["scrap.id"],
           where: { userId: query.user_id },
         });
-        // 성공적으로 가져왔다면, 응답에 전송
-        if (scrapByUser.length !== 0)
           res.status(200).json({ data: scrapByUser, message: "ok" });
-        // 가져오지 못했다면 에러메시지
-        else
-          res
-            .status(400)
-            .json({ data: null, message: "There's no scrap post of user" });
       }
     } catch (err) {
       console.errer(err);
