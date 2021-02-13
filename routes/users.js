@@ -7,7 +7,7 @@ const upload = multer();
 
 router.get("/", tokenMiddleware, controller.get);
 router.post("/", controller.signUp);
-router.get("/:user_id", tokenMiddleware, controller.getUserById);
+router.get("/:user_id", controller.getUserById);
 router.patch(
   "/",
   [tokenMiddleware, upload.single("image")],
